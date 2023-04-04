@@ -24,13 +24,5 @@ internal class Program
         var glRanking = League.Gl.ReadData();
 
         var typeChart = CsvParser.ParseTypeChart();
-
-        var fighting = typeChart.FirstOrDefault(x => x.Name == "Fighting");
-        Console.WriteLine(fighting?.Name);
-        Console.WriteLine("Not effective!");
-        foreach (var pokemonType in fighting?.Resistances?.NotEffective)
-        {
-            Console.WriteLine(pokemonType.Name);
-        }
     }
 }

@@ -14,7 +14,7 @@
     public class Resistance
     {
         public List<PokemonType> NotEffective { get; set; }
-        public List<PokemonType> SuperEffective { get; set; }
-        public List<PokemonType> Resisted { get; set; }
+        public List<PokemonType> IsWeakAgainst { get; set; }
+        public List<PokemonType> Resists { get; set; }
     }
 }

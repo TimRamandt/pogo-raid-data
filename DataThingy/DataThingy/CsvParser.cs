@@ -10,47 +10,44 @@ namespace DataThingy
             var types = new List<PokemonType>();
             var csv = File.ReadAllLines("typechart.csv");
 
-            var header = csv[0].Split(Delimiter);
-
-            foreach (string row in csv.Skip(1))
+            for(int row = 1; row < csv.Length; row++)
             {
-                var entries = row.Split(Delimiter);
-                var pokemonType = new PokemonType()
-                {
-                    Name = entries[0],
-                    Resistances = ParseResistances(entries, header),
-
-                }; 
-
-                types.Add(pokemonType);
+                var entries = csv[row].Split(Delimiter);
+                var name = entries[0];
+                types.Add(ParseResistances(row, csv, name));
             }
 
             return types;
         }
 
-        private static Resistance ParseResistances(string[] entries, string[] header)
+        private static PokemonType ParseResistances(int columnIndex, string[] csv, string name)
         {
             var notEffective = new List<PokemonType>();
-            var superEffective = new List<PokemonType>();
-            var resisted = new List<PokemonType>();
+            var weaknesses = new List<PokemonType>();
+            var resists = new List<PokemonType>();
 
-            for (int i = 1; i < entries.Length; i++)
+            for (int row = 1; row < csv.Length; row++)
             {
-                switch (Convert.ToDouble(entries[i], new CultureInfo("en-US")))
+                var entries = csv[row].Split(Delimiter);
+                string qName = entries[0].ToLower();
+                switch (Convert.ToDouble(entries[columnIndex], new CultureInfo("en-US")))
                 {
                     case 2:
-                        superEffective.Add(new PokemonType() { 
-                            Name = header[i]
+                        weaknesses.Add(new PokemonType()
+                        {
+                            Name = qName
                         });
                         break;
                     case 0.5:
-                        notEffective.Add(new PokemonType() { 
-                            Name = header[i]
+                        resists.Add(new PokemonType()
+                        {
+                            Name = qName
                         });
                         break;
                     case 0:
-                        resisted.Add(new PokemonType() { 
-                            Name = header[i]
+                        notEffective.Add(new PokemonType()
+                        {
+                            Name = qName
                         });
                         break;
                     default:
@@ -58,11 +55,15 @@ namespace DataThingy
                 }
             }
 
-            return new Resistance()
+            return new PokemonType()
             {
-                NotEffective = notEffective,
-                SuperEffective = superEffective,
-                Resisted = resisted
+                Name = name.ToLower(),
+                Resistances = new Resistance()
+                {
+                    NotEffective = notEffective,
+                    IsWeakAgainst = weaknesses,
+                    Resists = resists
+                }
             };
         }
     } 
