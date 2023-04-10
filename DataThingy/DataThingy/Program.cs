@@ -24,5 +24,7 @@ internal class Program
         var glRanking = League.Gl.ReadData();
 
         var typeChart = CsvParser.ParseTypeChart();
+        var legendaries = CsvParser.ParseLegendaries(typeChart);
+
     }
 }

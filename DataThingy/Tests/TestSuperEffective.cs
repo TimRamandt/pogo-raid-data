@@ -5,7 +5,7 @@ namespace Tests
 {
     public class Tests
     {
-        private List<PokemonType> _typeChart;
+        private TypeChart _typeChart;
         [SetUp]
         public void Setup()
         {
@@ -62,7 +62,7 @@ namespace Tests
                 _typeChart.Single(x => x.Name == "flying"),
                 _typeChart.Single(x => x.Name == "dragon"),
             };
-            var rayqauza = new Pokemon(types, "articuno");
+            var rayqauza = new Pokemon(types, "rayquaza");
             var weaknesses = rayqauza.GetWeaknesses();
             Assert.That(weaknesses, Has.Count.EqualTo(1));
             Assert.That(PrintWeaknesses(weaknesses), Is.EqualTo("ice"));

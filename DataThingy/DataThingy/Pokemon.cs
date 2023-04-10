@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata.Ecma335;
-
+﻿
 namespace DataThingy
 {
     public class Pokemon {
         public List<PokemonType> Types { get; private set; }
         public string Name { get; private set; }
-        public Pokemon(List<PokemonType> types, string name)
+
+        public bool IsMega { get; private set; }
+        public bool IsUltraBeast { get; private set; }
+        public Pokemon(List<PokemonType> types, string name, bool isMega = false, bool isUB = false)
         {
             if (types.Count > 2)
             {
@@ -14,6 +15,8 @@ namespace DataThingy
             }
             Types = types;
             Name = name;
+            IsMega = isMega;
+            IsUltraBeast = isUB;
         }
 
         public List<PokemonType> GetWeaknesses()
@@ -58,6 +61,11 @@ namespace DataThingy
             return doubleWeakness == null ? superEffective : new List<PokemonType>() { doubleWeakness };
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         private PokemonType? FindDoubleWeakness(List<PokemonType> superEffective)
         {
             Dictionary<string, int> entries = new Dictionary<string, int>();
@@ -81,5 +89,6 @@ namespace DataThingy
             return null;
 
         }
+
     }
 }
